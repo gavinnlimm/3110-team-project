@@ -1,9 +1,28 @@
 (** Terminal screens and scriptable I/O for Cornell Krillion.
 
-    This module owns presentation only: view models, pure string renderers, and
-    helpers that read/write through an injectable [io] record. Game logic
-    (matching, scoring, sessions, packs) lives elsewhere and is wired in via
-    [Game_driver] / [run_play_session]. *)
+    {2 Ownership}
+    - Primary: Ryan (rls494) — terminal interface + integration
+    - Backup: Colin (czt4)
+
+    {2 Status}
+    Presentation only: view models, pure string renderers, and helpers that
+    read/write through an injectable [io] record. Game logic (matching,
+    scoring, sessions, packs) must stay out of this module and enter via
+    [Session] / [Driver.Game_driver].
+
+    {2 Remaining work (by owner)}
+    - Ryan: keep renderers stable; add timed-round UX hooks when Karan’s Lwt
+      session can interrupt [read_answer]; optional richer TUI later.
+    - Gavin: map pack prompts into [prompt_view]; drive bank menu from real
+      default/custom loaders (UI already has [render_bank_menu]).
+    - Vinson: map matcher outcomes into [feedback_view] /
+      [round_result.understood_as].
+    - Colin: map rarity tiers/points into [feedback_view] / [round_result];
+      fill [stats_view] from real aggregates (not placeholder notes).
+    - Karan: implement [Session] (or adapt to it) so [run_play_session] drives
+      the real engine; timeouts should produce 0-point feedback.
+
+    See [docs/FUTURE_WORK.md]. *)
 
 (** {1 View models}
 

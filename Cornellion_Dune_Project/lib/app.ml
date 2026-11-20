@@ -1,7 +1,11 @@
-(** Application loop: menus + play session wiring for Cornell Krillion. *)
+(** Application loop: menus + play-session wiring for Cornell Krillion.
+
+    See [app.mli] and [docs/FUTURE_WORK.md] for ownership and remaining
+    integration work. Keep screen code in [Terminal]; keep temporary game logic
+    out of this file—swap the packed [Driver] module when real engines land. *)
 
 let play_with_driver (type a) (io : Terminal.io) ~seed
-    (module D : Mvp_driver.Game_driver with type t = a) =
+    (module D : Driver.Game_driver with type t = a) =
   let session = D.start ~seed in
   let module S = struct
     type t = a
@@ -20,7 +24,7 @@ let play_with_driver (type a) (io : Terminal.io) ~seed
 let handle_bank (io : Terminal.io) =
   match Terminal.read_bank_choice io with
   | Terminal.Default_bank ->
-      io.Terminal.print_line "Using the built-in MVP question bank.";
+      io.Terminal.print_line "Using the built-in temporary question bank.";
       io.print_line ""
   | Terminal.Custom_bank ->
       io.print_line
@@ -30,12 +34,11 @@ let handle_bank (io : Terminal.io) =
   | Terminal.Back -> ()
 
 let handle_stats (io : Terminal.io) =
-  Terminal.print_screen io
-    (Terminal.render_stats Mvp_driver.placeholder_stats)
+  Terminal.print_screen io (Terminal.render_stats Driver.placeholder_stats)
 
 let handle_play (io : Terminal.io) =
   let seed = Terminal.read_seed io in
-  ignore (play_with_driver io ~seed (module Mvp_driver.Mvp_driver))
+  ignore (play_with_driver io ~seed (module Driver))
 
 let rec run (io : Terminal.io) =
   match Terminal.read_menu_choice io with

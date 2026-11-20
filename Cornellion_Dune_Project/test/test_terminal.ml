@@ -1,4 +1,21 @@
-(** OUnit tests for Terminal screens and a scripted MVP game. *)
+(** OUnit tests for Terminal screens and a scripted game via [Driver].
+
+    {2 Ownership}
+    - Primary: Ryan (rls494)
+    - Backup: Colin (czt4)
+
+    {2 Status}
+    Covers pure renderers, menu parsing, scripted full game / reject path, and
+    basic [App] menu flows using the temporary [Driver].
+
+    {2 Remaining work (by owner)}
+    - Ryan: keep scripted-[io] tests; once real modules land, add a parallel
+      end-to-end suite that packs Karan’s session (with Gavin/Vinson/Colin
+      behind it) instead of only [Driver].
+    - Karan / Gavin / Vinson / Colin: provide fixed-seed fixtures their modules
+      can run under the same scripted-[io] pattern.
+
+    See [docs/FUTURE_WORK.md]. *)
 
 open OUnit2
 open Cornellion_Dune_Project
@@ -154,7 +171,7 @@ let test_full_scripted_game _ =
   let answers = [ "Okies"; "Upson Hall"; "Dragon Day" ] in
   let io, get_out = make_io answers in
   let results =
-    App.play_with_driver io ~seed:0 (module Mvp_driver.Mvp_driver)
+    App.play_with_driver io ~seed:0 (module Driver)
   in
   let out = get_out () in
   assert_equal 3 (List.length results.Terminal.rounds);
@@ -171,7 +188,7 @@ let test_full_scripted_game _ =
 let test_rejected_answer_path _ =
   let io, get_out = make_io [ "totally fake"; "zzz"; "still wrong" ] in
   let results =
-    App.play_with_driver io ~seed:0 (module Mvp_driver.Mvp_driver)
+    App.play_with_driver io ~seed:0 (module Driver)
   in
   let out = get_out () in
   assert_equal 0 results.total_depth;
@@ -183,10 +200,10 @@ let test_rejected_answer_path _ =
   assert_bool "rejection shown" (has_substr out "Not accepted")
 
 let test_seed_rotates_prompt_order _ =
-  let state0 = Mvp_driver.Mvp_driver.start ~seed:0 in
-  let state1 = Mvp_driver.Mvp_driver.start ~seed:1 in
-  let p0 = Mvp_driver.Mvp_driver.current_prompt state0 in
-  let p1 = Mvp_driver.Mvp_driver.current_prompt state1 in
+  let state0 = Driver.start ~seed:0 in
+  let state1 = Driver.start ~seed:1 in
+  let p0 = Driver.current_prompt state0 in
+  let p1 = Driver.current_prompt state1 in
   match (p0, p1) with
   | Some a, Some b ->
       assert_bool "seed changes first prompt" (a.text <> b.text)

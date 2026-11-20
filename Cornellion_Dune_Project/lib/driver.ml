@@ -1,4 +1,8 @@
-(** Temporary MVP game driver for terminal integration. *)
+(** Temporary game [Driver] for Cornell Krillion integration.
+
+    See [driver.mli] and [docs/FUTURE_WORK.md] for ownership and replacement
+    plan. This file intentionally duplicates pack/match/score behavior that
+    teammates own; do not grow it into the permanent game engine. *)
 
 module type Game_driver = sig
   type t
@@ -21,7 +25,7 @@ type prompt_entry = {
   answers : answer_entry list;
 }
 
-(** Small built-in pack for demos and UI tests only. *)
+(** Small built-in pack for demos and UI tests only (Gavin will replace). *)
 let builtin_prompts : prompt_entry list =
   [
     {
@@ -128,7 +132,7 @@ let find_answer (prompt : prompt_entry) typed =
   in
   search prompt.answers
 
-(** Deterministic rotation of prompts from [seed]. *)
+(** Deterministic rotation of prompts from [seed] (Karan will replace). *)
 let order_prompts seed =
   let n = List.length builtin_prompts in
   let offset = if n = 0 then 0 else abs seed mod n in
@@ -141,93 +145,83 @@ let order_prompts seed =
   in
   rotate offset builtin_prompts
 
-module Mvp_driver = struct
-  type t = {
-    seed : int;
-    prompts : prompt_entry list;
-    index : int;  (** next prompt index to show *)
-    rounds : Terminal.round_result list;  (** completed, oldest first *)
-  }
+type t = {
+  seed : int;
+  prompts : prompt_entry list;
+  index : int;  (** next prompt index to show *)
+  rounds : Terminal.round_result list;  (** completed, oldest first *)
+}
 
-  let start ~seed =
-    { seed; prompts = order_prompts seed; index = 0; rounds = [] }
+let start ~seed =
+  { seed; prompts = order_prompts seed; index = 0; rounds = [] }
 
-  let current_prompt (state : t) =
-    let total = List.length state.prompts in
-    if state.index >= total then None
-    else
-      let prompt = List.nth state.prompts state.index in
-      Some
-        {
-          Terminal.index = state.index + 1;
-          total;
-          text = prompt.text;
-        }
+let current_prompt (state : t) =
+  let total = List.length state.prompts in
+  if state.index >= total then None
+  else
+    let prompt = List.nth state.prompts state.index in
+    Some { Terminal.index = state.index + 1; total; text = prompt.text }
 
-  let submit (state : t) typed =
-    let total = List.length state.prompts in
-    if state.index >= total then
-      let feedback =
-        {
-          Terminal.accepted = false;
-          typed;
-          understood_as = None;
-          points = 0;
-          rarity_label = None;
-        }
-      in
-      (feedback, state)
-    else
-      let prompt = List.nth state.prompts state.index in
-      let feedback, round =
-        match find_answer prompt typed with
-        | Some a ->
-            ( {
-                Terminal.accepted = true;
-                typed;
-                understood_as = Some a.canonical;
-                points = a.points;
-                rarity_label = Some a.rarity_label;
-              },
-              {
-                Terminal.prompt_text = prompt.text;
-                typed;
-                understood_as = Some a.canonical;
-                points = a.points;
-                rarity_label = Some a.rarity_label;
-              } )
-        | None ->
-            ( {
-                Terminal.accepted = false;
-                typed;
-                understood_as = None;
-                points = 0;
-                rarity_label = None;
-              },
-              {
-                Terminal.prompt_text = prompt.text;
-                typed;
-                understood_as = None;
-                points = 0;
-                rarity_label = None;
-              } )
-      in
-      let state' =
-        {
-          state with
-          index = state.index + 1;
-          rounds = state.rounds @ [ round ];
-        }
-      in
-      (feedback, state')
-
-  let results (state : t) =
-    let total_depth =
-      List.fold_left (fun acc (r : Terminal.round_result) -> acc + r.points) 0
-        state.rounds
+let submit (state : t) typed =
+  let total = List.length state.prompts in
+  if state.index >= total then
+    let feedback =
+      {
+        Terminal.accepted = false;
+        typed;
+        understood_as = None;
+        points = 0;
+        rarity_label = None;
+      }
     in
-    { Terminal.seed = state.seed; rounds = state.rounds; total_depth }
-end
+    (feedback, state)
+  else
+    let prompt = List.nth state.prompts state.index in
+    let feedback, round =
+      match find_answer prompt typed with
+      | Some a ->
+          ( {
+              Terminal.accepted = true;
+              typed;
+              understood_as = Some a.canonical;
+              points = a.points;
+              rarity_label = Some a.rarity_label;
+            },
+            {
+              Terminal.prompt_text = prompt.text;
+              typed;
+              understood_as = Some a.canonical;
+              points = a.points;
+              rarity_label = Some a.rarity_label;
+            } )
+      | None ->
+          ( {
+              Terminal.accepted = false;
+              typed;
+              understood_as = None;
+              points = 0;
+              rarity_label = None;
+            },
+            {
+              Terminal.prompt_text = prompt.text;
+              typed;
+              understood_as = None;
+              points = 0;
+              rarity_label = None;
+            } )
+    in
+    let state' =
+      { state with index = state.index + 1; rounds = state.rounds @ [ round ] }
+    in
+    (feedback, state')
+
+let results (state : t) =
+  let total_depth =
+    List.fold_left
+      (fun acc (r : Terminal.round_result) -> acc + r.points)
+      0 state.rounds
+  in
+  { Terminal.seed = state.seed; rounds = state.rounds; total_depth }
 
 let placeholder_stats : Terminal.stats_view =
   {

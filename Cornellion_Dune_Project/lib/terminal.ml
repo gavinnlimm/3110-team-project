@@ -1,4 +1,8 @@
-(** Terminal screens and scriptable I/O for Cornell Krillion. *)
+(** Terminal screens and scriptable I/O for Cornell Krillion.
+
+    See [terminal.mli] and [docs/FUTURE_WORK.md] for ownership and remaining
+    work. Do not add pack loading, matching, scoring, or session state here—
+    map teammate domain types into the view models and call the renderers. *)
 
 type prompt_view = {
   index : int;
