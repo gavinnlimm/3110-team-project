@@ -1,0 +1,4 @@
+(executable
+ (public_name Cornellion_Dune_Project)
+ (name main)
+ (libraries Cornellion_Dune_Project))

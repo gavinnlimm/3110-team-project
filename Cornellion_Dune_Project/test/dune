@@ -1,0 +1,4 @@
+(test
+ (name test_Cornellion_Dune_Project)
+ (libraries ounit2 Cornellion_Dune_Project))
+(cram (deps ../bin/main.exe (glob_files_rec ../data/*)))
