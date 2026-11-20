@@ -17,10 +17,13 @@
 
 (package
  (name Cornellion_Dune_Project)
- (synopsis "A short synopsis")
- (description "A longer description")
- (depends ocaml)
+ (synopsis "Cornell Krillion — Cornell-themed rarity word game")
+ (description
+  "Terminal interface and game scaffolding for Cornell Krillion (CS 3110).")
+ (depends
+  ocaml
+  (ounit2 :with-test))
  (tags
-  ("add topics" "to describe" your project)))
+  (game cornell terminal)))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
