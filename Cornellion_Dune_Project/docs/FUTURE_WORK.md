@@ -8,7 +8,7 @@ point here; keep them in sync when ownership changes.
 
 | Area | Primary | Backup | Status |
 | --- | --- | --- | --- |
-| Question bank / packs / selection | Gavin (gl568) | Karan | Not started (stub prompts live in `Driver`) |
+| Question bank / packs / selection | Gavin (gl568) | Karan | MS2 done: `Pack` module + default pack + tests; not yet wired into `Driver` |
 | Answer matching + game history I/O | Vinson (vc377) | Gavin | Not started (exact/alias stub in `Driver`) |
 | Crowd rarity scoring + achievements + stats | Colin (czt4) | Vinson | Not started (fixed points + `placeholder_stats`) |
 | Game sessions / timed rounds (Lwt) | Karan (km2253) | Ryan | Not started (seed rotate + untimed loop in `Driver`/`App`) |
@@ -29,12 +29,20 @@ When real modules land:
 
 ### Gavin (gl568) — question bank
 
-- [ ] Define pack file format and ship the default Cornell prompt bucket.
-- [ ] Implement pack loader/parser with clear errors for malformed files.
-- [ ] Seeded prompt selection with no repeats within a game.
-- [ ] Custom question import for the terminal “Question bank” → Custom path.
-- [ ] Replace `Driver.builtin_prompts` as the source of truth.
-- [ ] OUnit: valid packs load; malformed packs rejected; selection is seeded.
+- [x] Define pack file format and ship the default Cornell prompt bucket
+      (`docs/PACK_FORMAT.md`, `data/default_pack.txt`, 6 questions).
+- [x] Implement pack loader/parser with clear errors for malformed files
+      (`lib/pack.mli`: `of_string`, `load_file`, `default`).
+- [x] Seeded prompt selection with no repeats within a game (`Pack.select`).
+- [ ] Custom question import for the terminal “Question bank” → Custom path
+      (with Ryan: `App.handle_bank` calls `Pack.load_file`, shows
+      `Pack.error_to_string` on failure).
+- [ ] Replace `Driver.builtin_prompts` as the source of truth (with Karan/Ryan:
+      session uses `Pack.select`; points come from Colin’s scoring of
+      `answer.count`).
+- [x] OUnit: valid packs load; malformed packs rejected; selection is seeded
+      (`test/test_pack.ml`, 27 tests).
+- [ ] Personal statistics with Colin/Vinson once history saving exists.
 
 ### Vinson (vc377) — matcher + history
 
