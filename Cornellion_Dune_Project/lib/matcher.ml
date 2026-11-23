@@ -6,7 +6,12 @@ let normalize s =
   String.iter
     (fun c ->
       match c with
-      | 'a' .. 'z' | '0' .. '9' | ' ' -> Buffer.add_char buf c
+      | 'a' .. 'z' | '0' .. '9' -> Buffer.add_char buf c
+      | ' ' | '\t' | '\n' | '\r' ->
+          if
+            Buffer.length buf > 0
+            && Buffer.nth buf (Buffer.length buf - 1) <> ' '
+          then Buffer.add_char buf ' '
       | '\'' -> ()
       | _ -> ())
     trimmed;
