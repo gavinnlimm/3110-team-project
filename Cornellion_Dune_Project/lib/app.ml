@@ -38,7 +38,7 @@ let handle_stats (io : Terminal.io) =
 
 let handle_play (io : Terminal.io) =
   let seed = Terminal.read_seed io in
-  ignore (play_with_driver io ~seed (module Driver))
+  ignore (play_with_driver io ~seed (module Session))
 
 let rec run (io : Terminal.io) =
   match Terminal.read_menu_choice io with
