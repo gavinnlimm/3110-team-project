@@ -1,0 +1,89 @@
+# Cornell Krillion default question pack.
+# Format: docs/PACK_FORMAT.md. Owner: Gavin (gl568).
+#
+# Counts are a simulated crowd of 300 answers per question: how many of 300
+# Cornell students we expect to give each answer. They were drafted with AI
+# assistance and reviewed by hand; adjust them as the team collects real
+# answers. Lower count = rarer answer = more points.
+
+pack: Cornell Basics
+
+question: dining-hall
+prompt: Name a Cornell all-you-care-to-eat dining hall
+answer: Okenshields | 62 | Okies, Okenshield's, Okenshield
+answer: Morrison Dining | 54 | Morrison, Toni Morrison Dining
+answer: North Star Dining Room | 38 | North Star, Appel, Appel Dining
+answer: Risley Dining Room | 30 | Risley, Risley Dining
+answer: Becker House Dining | 28 | Becker, Becker House
+answer: Cook House Dining | 24 | Cook, Cook House
+answer: Rose House Dining | 22 | Rose, Rose House
+answer: Keeton House Dining | 18 | Keeton, Keeton House
+answer: Bethe House Dining | 14 | Bethe, Bethe House, Jansen's, Jansens
+answer: 104West! | 10 | 104 West, 104West, 104 West!
+
+question: engineering-quad
+prompt: Name a building on the Engineering Quad
+answer: Duffield Hall | 70 | Duffield
+answer: Upson Hall | 52 | Upson
+answer: Phillips Hall | 44 | Phillips
+answer: Rhodes Hall | 36 | Rhodes, Frank H.T. Rhodes Hall
+answer: Carpenter Hall | 26 | Carpenter
+answer: Olin Hall | 20 | Olin, Olin Hall of Engineering
+answer: Hollister Hall | 16 | Hollister
+answer: Kimball Hall | 12 | Kimball
+answer: Thurston Hall | 10 | Thurston
+answer: Snee Hall | 8 | Snee
+answer: Bard Hall | 6 | Bard
+
+question: tradition
+prompt: Name a Cornell tradition
+answer: Slope Day | 120 | Slopeday
+answer: Dragon Day | 72 | Dragonday
+answer: Chimes Concert | 30 | Chimes, Cornell Chimes
+answer: Zinck's Night | 24 | Zincks Night, Zinck's, Zincks
+answer: Fish Throw at the Harvard Hockey Game | 22 | Fish Throw, Throwing Fish, Fish Toss
+answer: Homecoming | 20
+answer: Convocation | 12 | Senior Convocation
+
+question: library
+prompt: Name a Cornell library
+answer: Olin Library | 90 | Olin Lib
+answer: Uris Library | 64 | Uris
+answer: Mann Library | 50 | Mann
+answer: A.D. White Library | 20 | AD White, A.D. White, Harry Potter Library
+answer: Kroch Library | 22 | Kroch
+answer: Law Library | 18 | Cornell Law Library
+answer: Catherwood Library | 14 | Catherwood, ILR Library
+answer: Mathematics Library | 12 | Math Library, Malott Library
+answer: Fine Arts Library | 10 | Rand Hall Library
+answer: Nestle Library | 8 | Nestle, Hotel Library
+answer: Africana Library | 6 | Africana
+
+question: college
+prompt: Name one of Cornell's undergraduate colleges or schools
+answer: College of Engineering | 66 | Engineering, Engineering School
+answer: College of Arts and Sciences | 60 | Arts and Sciences, Arts & Sciences, A&S, Arts
+answer: College of Agriculture and Life Sciences | 52 | CALS, Agriculture and Life Sciences
+answer: Nolan School of Hotel Administration | 34 | Hotel School, Hotelie School, Nolan
+answer: School of Industrial and Labor Relations | 28 | ILR, Industrial and Labor Relations
+answer: College of Human Ecology | 22 | Human Ecology, HumEc
+answer: Dyson School | 18 | Dyson, Dyson School of Applied Economics and Management
+answer: College of Architecture, Art, and Planning | 10 | AAP, Architecture Art and Planning
+answer: Brooks School of Public Policy | 6 | Brooks, Brooks School, Public Policy
+answer: Bowers College of Computing and Information Science | 4 | Bowers, Bowers CIS, CIS
+
+question: north-campus-dorm
+prompt: Name a residence hall on North Campus
+answer: Toni Morrison Hall | 52 | Toni Morrison, Morrison Hall
+answer: Balch Hall | 36 | Balch
+answer: Mary Donlon Hall | 34 | Donlon, Donlon Hall
+answer: Clara Dickson Hall | 30 | Dickson, Dickson Hall
+answer: Court-Kay-Bauer Hall | 28 | CKB, Court Kay Bauer, Court Hall
+answer: Mews Hall | 24 | Mews
+answer: Risley Residential College | 22 | Risley Hall
+answer: High Rise 5 | 20 | HR5, High Rise Five
+answer: Ganedagonh Hall | 16 | Ganedagonh
+answer: Barbara McClintock Hall | 14 | McClintock, McClintock Hall
+answer: Hu Shih Hall | 12 | Hu Shih
+answer: Low Rise 7 | 8 | LR7, Low Rise Seven
+answer: Jameson Hall | 4 | Jameson
