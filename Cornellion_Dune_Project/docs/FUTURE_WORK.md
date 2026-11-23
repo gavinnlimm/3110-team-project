@@ -46,11 +46,12 @@ When real modules land:
 
 ### Vinson (vc377) — matcher + history
 
-- [ ] Normalize typed input; nickname lookup; safe edit-distance fuzzy match.
-- [ ] Guard against confusing close distinct answers (e.g. Becker vs Baker).
+- [x] Normalize typed input; nickname lookup.
+- [x] Integrate answer validation and return into game driver.
 - [ ] Save completed games to a history file in an agreed format.
-- [ ] Replace exact/alias matching inside today’s temporary `Driver.submit`.
-- [ ] OUnit: matching correctness; history round-trip.
+- [ ] Implement fuzzy matching with chosen method.
+- [x] OUnit: matching correctness.
+- [ ] OUnit: history round-trip.
 
 ### Colin (czt4) — scoring + achievements + stats
 
