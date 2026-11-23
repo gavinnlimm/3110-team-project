@@ -1,2 +1,19 @@
 (library
- (name Cornellion_Dune_Project))
+ (name Cornellion_Dune_Project)
+ (private_modules default_pack_data))
+
+; Compile data/default_pack.txt into the library as a string, so the default
+; pack works no matter which directory the game is run from. Owner: Gavin.
+
+(rule
+ (target default_pack_data.ml)
+ (deps
+  (:src ../data/default_pack.txt))
+ (action
+  (with-stdout-to
+   %{target}
+   (progn
+    (echo "(* Generated from data/default_pack.txt; do not edit. *)\n")
+    (echo "let text = {pack|")
+    (cat %{src})
+    (echo "|pack}\n")))))

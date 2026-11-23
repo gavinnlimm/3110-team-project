@@ -106,3 +106,29 @@ let band rounds =
     else if total < 85 * n then Some Rare
     else if total < 100 * n then Some Deep_cut
     else Some Legend
+
+    
+(** Temporary compatibility functions for the existing demo game.
+
+    These functions use the hardcoded points in Pack.answer_entry.
+    They will be removed once Driver uses the frequency-based
+    scoring system above.
+*)
+
+let score (a : Pack.answer_entry) =
+  (a.points, a.rarity_label)
+
+(* The old Driver expects the sum of points as total_depth.
+   Preserve that behavior until Driver is migrated. *)
+let total_depth rounds = total_score rounds
+
+let placeholder_stats : Terminal.stats_view =
+  {
+    games_played = 0;
+    best_depth = 0;
+    average_depth = 0.0;
+    note =
+      Some
+        "Stats will populate once game history saving is wired in \
+         (Vinson/Colin).";
+  }

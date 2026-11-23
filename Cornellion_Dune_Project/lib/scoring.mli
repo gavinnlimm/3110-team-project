@@ -92,3 +92,8 @@ val band : Terminal.round_result list -> tier option
 (** [band rounds] rates a whole game by its average points per round: under 30
     is [Common], under 60 [Uncommon], under 85 [Rare], under 100 [Deep_cut],
     and 100 [Legend]. [None] if [rounds] is empty. *)
+val score : Pack.answer_entry -> int * string
+(** Fixed scoring for the existing demo question bank. *)
+
+val total_depth : Terminal.round_result list -> int
+val placeholder_stats : Terminal.stats_view
