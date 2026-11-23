@@ -112,3 +112,19 @@ val select : seed:int -> count:int -> t -> question list
     [p] in a pseudorandom order determined only by [seed]: the same seed and
     pack always give the same list, on any machine or OCaml version. No
     question appears twice. Raises [Invalid_argument] if [count < 0]. *)
+
+(** Temporary built-in prompt data used by the existing demo session. *)
+type answer_entry = {
+  canonical : string;
+  aliases : string list;
+  points : int;
+  rarity_label : string;
+}
+
+type prompt_entry = {
+  text : string;
+  answers : answer_entry list;
+}
+
+val builtin_prompts : prompt_entry list
+val order_prompts : int -> prompt_entry list

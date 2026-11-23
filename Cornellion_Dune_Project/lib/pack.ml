@@ -308,3 +308,106 @@ let select ~seed ~count p =
     arr.(j) <- tmp
   done;
   Array.to_list (Array.sub arr 0 (min count n))
+
+(** Temporary demo bank preserved from Driver. *)
+type answer_entry = {
+  canonical : string;
+  aliases : string list;
+  points : int;
+  rarity_label : string;
+}
+
+type prompt_entry = {
+  text : string;
+  answers : answer_entry list;
+}
+
+(** Small built-in pack for demos and UI tests only (Gavin will replace). *)
+let builtin_prompts : prompt_entry list =
+  [
+    {
+      text = "Name a Cornell dining hall";
+      answers =
+        [
+          {
+            canonical = "Okenshields";
+            aliases = [ "okenshields"; "okies"; "okenshield's" ];
+            points = 5;
+            rarity_label = "Common";
+          };
+          {
+            canonical = "104West!";
+            aliases = [ "104west!"; "104west"; "104 west"; "104 west!" ];
+            points = 25;
+            rarity_label = "Rare";
+          };
+          {
+            canonical = "Becker House";
+            aliases = [ "becker"; "becker house" ];
+            points = 15;
+            rarity_label = "Uncommon";
+          };
+        ];
+    };
+    {
+      text = "Name a building on the Engineering Quad";
+      answers =
+        [
+          {
+            canonical = "Phillips Hall";
+            aliases = [ "phillips"; "phillips hall" ];
+            points = 8;
+            rarity_label = "Common";
+          };
+          {
+            canonical = "Upson Hall";
+            aliases = [ "upson"; "upson hall" ];
+            points = 10;
+            rarity_label = "Common";
+          };
+          {
+            canonical = "Duffield Hall";
+            aliases = [ "duffield"; "duffield hall" ];
+            points = 12;
+            rarity_label = "Uncommon";
+          };
+        ];
+    };
+    {
+      text = "Name a Cornell tradition";
+      answers =
+        [
+          {
+            canonical = "Slope Day";
+            aliases = [ "slope day"; "slopeday" ];
+            points = 6;
+            rarity_label = "Common";
+          };
+          {
+            canonical = "Dragon Day";
+            aliases = [ "dragon day"; "dragonday" ];
+            points = 14;
+            rarity_label = "Uncommon";
+          };
+          {
+            canonical = "Hockey Peanuts";
+            aliases = [ "hockey peanuts"; "peanuts" ];
+            points = 22;
+            rarity_label = "Rare";
+          };
+        ];
+    };
+  ]
+
+(** Deterministic rotation of prompts from [seed] (Karan will replace). *)
+let order_prompts seed =
+  let n = List.length builtin_prompts in
+  let offset = if n = 0 then 0 else abs seed mod n in
+  let rec rotate k lst =
+    if k = 0 then lst
+    else
+      match lst with
+      | [] -> []
+      | h :: t -> rotate (k - 1) (t @ [ h ])
+  in
+  rotate offset builtin_prompts

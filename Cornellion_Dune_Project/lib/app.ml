@@ -34,7 +34,7 @@ let handle_bank (io : Terminal.io) =
   | Terminal.Back -> ()
 
 let handle_stats (io : Terminal.io) =
-  Terminal.print_screen io (Terminal.render_stats Driver.placeholder_stats)
+  Terminal.print_screen io (Terminal.render_stats Scoring.placeholder_stats)
 
 let handle_play (io : Terminal.io) =
   let seed = Terminal.read_seed io in

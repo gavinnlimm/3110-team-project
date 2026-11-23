@@ -36,7 +36,3 @@ end
 
 (** Built-in temporary implementation of [Game_driver]. *)
 include Game_driver
-
-(** Placeholder personal stats until saved-history + scoring stats land
-    (Vinson / Colin). *)
-val placeholder_stats : Terminal.stats_view
